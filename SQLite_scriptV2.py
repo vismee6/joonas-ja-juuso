@@ -13,44 +13,44 @@ found online at http://www.fsf.org/licensing/licenses/fdl.txt
 from serial import *
 from datetime import *
 import time
-import json
+import sqlite3
 import os
 
 # Muuttujat
-#JSON = '/var/www/html/project/data.json'
-JSON = 'data.json' # Testasin työpöydällä
+#sqlite3 = '/var/www/html/project/data.sqlite3'
+sqlite3 = 'data.sqlite3' # Testasin työpöydällä
 
 def Tapahtuma(data):
-	# Haetaan JSON tiedosto. Jos ei ole, luodaan.
+	# Haetaan sqlite3 tiedosto. Jos ei ole, luodaan.
 	try:
-		with open(JSON) as tuonti:
-			json_data = json.load(tuonti)
-	except json.decoder.JSONDecodeError:
-		json_data = {} # luo tyhjää
+		with open(sqlite3) as tuonti:
+			sqlite3_data = sqlite3.load(tuonti)
+	except sqlite3.decoder.sqlite3DecodeError:
+		sqlite3_data = {} # luo tyhjää
 	except FileNotFoundError:
-		json_data = {} # tee tyhjä tietokanta
-		open(JSON, 'a').close() ## tietokanta syntyy
-		os.chmod(JSON, 0o755) # ? oikeuksiin liittyvä
+		sqlite3_data = {} # tee tyhjä tietokanta
+		open(sqlite3, 'a').close() ## tietokanta syntyy
+		os.chmod(sqlite3, 0o755) # ? oikeuksiin liittyvä
 
 	# Päivitetään refenrenssiaika
-	json_data['REF'] = int(time.time())  # tietue avain-arvo
+	sqlite3_data['REF'] = int(time.time())  # tietue avain-arvo
 
 	# Jos dataa on kaksi tavua, PROTOKOLLA
 	if len(data) == 2:
-		# Käydään läpi  JSON tietueet. Jos on olemassa, päivitetään aika. Jos ei ole, luodaan.
+		# Käydään läpi  sqlite3 tietueet. Jos on olemassa, päivitetään aika. Jos ei ole, luodaan.
 		lippu = 0 # vipu
-		for avain, arvo in json_data.items():  # tietue kerrallaan
+		for avain, arvo in sqlite3_data.items():  # tietue kerrallaan
 			if avain == data: # jos löytyy tällä avaimella oleva tietue
-				json_data[avain] = int(time.time()) # hae uusi kellonaika
+				sqlite3_data[avain] = int(time.time()) # hae uusi kellonaika
 				lippu = 1
 
 		if lippu==0:
-			json_data[data] = int(time.time()) # uusi tietue
+			sqlite3_data[data] = int(time.time()) # uusi tietue
 	# -------------------------------------------------
-	# Kirjoitetaan JSON tiedostoon.
+	# Kirjoitetaan sqlite3 tiedostoon.
 	try:
-		with open(JSON, 'w') as outfile:
-			json.dump(json_data, outfile)
+		with open(sqlite3, 'w') as outfile:
+			sqlite3.dump(sqlite3_data, outfile)
 	except Exception:
 		print('Ei pysty kirjoittamaan')
 
