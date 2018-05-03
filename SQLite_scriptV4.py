@@ -12,7 +12,7 @@ def Tapahtuma(data):
         c = conn.cursor()
         lampo = (data[5:len(data)])
         valo = (data[5:len(data)])
-        c.execute("INSERT INTO taulu VALUES (?, ?)", (aika, valo))
+        c.execute("INSERT INTO taulu VALUES (?, ?)", (lampo, valo))
         conn.commit()
         conn.close()
 
