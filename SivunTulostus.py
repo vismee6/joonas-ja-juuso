@@ -1,3 +1,6 @@
+from serial import *
+import sqlite3
+
 """
 print('<p>Loppu</p>')
 print('</body>')
@@ -5,44 +8,34 @@ print('</html>')
 """
 
 def lukia():
-    from serial import *
-    import sqlite3
-
     conn = sqlite3.connect('tietokanta.db')
-    print("tietokanta avattu")
     c = conn.cursor()
 
     c.execute("SELECT * FROM taulu")
 
     conn.commit()
-
-    for row in c:
-        print ("Testi ",row[0])
-
     conn.close()
 
-    print("loppu")
 
 def luoHTTPHeader():
-    print("Content-type:text/html/n/n")
+    print("Content-type:text/html")
     print("""<!DOCTYPE html>
-    <html lang='fi'>
-    <head><title>Lämmin ja valoisa</title>
-    <link rel="stylesheet" href="jotain.css">
-    </head>
-    """)
+<html lang='fi'>
+<head><title>Lämmin ja valoisa</title>
+<link rel="stylesheet" href="jotain.css">
+</head>""")
 
 def luoSivunYlaosa():
     print("""<body>
-    <h1>Lämpö ja valo mittari</h1>
+<h1>Lämpö ja valo mittari</h1>
     """)
-    def LuoSivu(tiedot):
-        print(tiedot)
-        print("<p>Loppu</p>")
-        print("</body>")
-        print("</html>")
+def LuoSivu(tiedot):
+    print(tiedot)
+    print("<p>Loppu</p>")
+    print("</body>")
+    print("</html>")
 
-def sivu():
+def main():
     luoHTTPHeader()
     luoSivunYlaosa()
 
@@ -50,5 +43,5 @@ def sivu():
 
     LuoSivu(tiedot)
 
-if __name__ == '__sivu__':
-    sivu()
+if __name__ == '__main__':
+    main()
