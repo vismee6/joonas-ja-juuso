@@ -5,8 +5,17 @@ import pickle
 import time
 
 
-1weapons = {"Great Sword": 40,
-                    "Massive Sword": 100}
+weapons = {"Great Sword": 40,
+            "Massive Sword": 100}
+
+towns = {"Lidl Town": 1,
+        "Vammala": 5,
+        "Oulu": 10,
+        "Hese": 20,
+        "Riihimäki": 30,
+        "Hassis": 40,
+        "Iso Runkku": 50,
+        "Tervakoski": 60}
 
 class Player:
     def __init__(self, name):
@@ -16,7 +25,7 @@ class Player:
         self.maxmp = 100
         self.mp = self.maxmp
         self.base_attack = 0
-        self.gold = 100
+        self.gold = 0
         self.Class = None
         self.lv = 1
         self.curexp =0
@@ -25,6 +34,7 @@ class Player:
         self.mpPotions = 0
         self.weap = ["Rusty Sword"]
         self.curweap = ["Rusty Sword"]
+        self.curtown = "Lidl Town"
 
 
     @property
@@ -112,7 +122,8 @@ def start():
 
 
 def lvup():
-    if PlayerIG.curexp == PlayerIG.maxexp:
+    if PlayerIG.curexp >= PlayerIG.maxexp:
+        PlayerIG.lv += 1
         os.system("cls")
         print("You have leveled up")
         print("Choose what stat to level")
@@ -296,11 +307,23 @@ def start1():
 
 
 
+def map():
+    print("You are in",PlayerIG.curtown,"\n\n")
+    print("1.) Travel to Lidl Town")
+    print("2.) Travel to Vammala")
+    print("3.) Travel to Oulu")
+    print("4.) Travel to Hese")
+    print("5.) Travel to Riihimäki")
+    option = input("--> ")
+    start1()
+
+
+
 def tavern():
     os.system("cls")
     print("\nHello Welcome to the Tavern\n")
     print("1.) Talk to the bartender")
-    print("2.) Rest")
+    print("2.) Rest (25 Gold)")
     print("3.) Exit")
     option = input("--> ")
 
@@ -320,7 +343,7 @@ def tavern():
 
 def rest():
     os.system("cls")
-    if PlayerIG.gold <= 25:
+    if PlayerIG.gold >= 25:
         PlayerIG.health = PlayerIG.maxhealth
         PlayerIG.mp = PlayerIG.maxexp
         print("You feel well rested")
@@ -409,6 +432,15 @@ def buyMPpotion():
         option = input(" ")
 
         bartender()
+
+quests = []
+
+def getquest():
+    os.system("cls")
+    if PlayerIG.lv <= 1:
+        quests.append('Rainy day')
+
+
 
 
 
