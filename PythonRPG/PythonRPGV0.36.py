@@ -638,10 +638,10 @@ def prefight():
     if PlayerIG.lv >= 6:
         enemynum = random.randint(1, 2)
         if enemynum == 1:
-            enemy = OgreLV2
+            enemy = OgreLV2IG
 
         else:
-            enemy = LizardBoiLV2
+            enemy = LizardBoiLV2IG
 
     elif PlayerIG.lv >= 4:
         enemynum = random.randint(1, 2)
@@ -833,7 +833,10 @@ def dead():
     os.system("cls")
     print("You have died")
     option = input(" ")
-    sys.exit()
+    PlayerIG.curexp = 0
+    PlayerIG.gold / 2
+    print("You dropped half of your gold")
+    start1()
 
 
 
