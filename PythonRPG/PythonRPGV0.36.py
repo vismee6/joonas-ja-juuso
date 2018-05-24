@@ -229,7 +229,7 @@ def lvup():
             elif option == "2":
                 os.system("cls")
                 print("Hp increased")
-                PlayerIG.maxhealth += 15
+                PlayerIG.maxhealth += 40
                 option = input(" ")
                 PlayerIG.maxexp *= 2
                 PlayerIG.lv += 1
@@ -257,7 +257,7 @@ def lvup():
             elif option == "2":
                 os.system("cls")
                 print("Hp increased")
-                PlayerIG.maxhealth += 10
+                PlayerIG.maxhealth += 25
                 option = input(" ")
                 PlayerIG.maxexp *= 2
                 PlayerIG.lv += 1
@@ -285,7 +285,7 @@ def lvup():
             elif option == "2":
                 os.system("cls")
                 print("Hp increased")
-                PlayerIG.maxhealth += 10
+                PlayerIG.maxhealth += 20
                 option = input(" ")
                 PlayerIG.maxexp *= 2
                 PlayerIG.lv += 1
