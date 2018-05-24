@@ -530,7 +530,7 @@ def bartender():
 
 def buyHPpotion():
     os.system("cls")
-    if PlayerIG.gold <= 10:
+    if PlayerIG.gold >= 10:
         PlayerIG.healthPotions += 1
         print("You have bought an HP Potion")
 
@@ -549,7 +549,7 @@ def buyHPpotion():
 
 def buyMPpotion():
     os.system("cls")
-    if PlayerIG.gold <= 10:
+    if PlayerIG.gold >= 10:
         PlayerIG.mpPotions += 1
         print("You have bought an MP Potion")
 
