@@ -722,7 +722,7 @@ def drinkHPPotion():
         print("You don't have any HP potions")
 
     else:
-        PlayerIG.healthPotions += 50
+        PlayerIG.health += 100
         if PlayerIG.health > PlayerIG.maxhealth:
             PlayerIG.health = PlayerIG.maxhealth
         print("You drank a potion")
@@ -739,7 +739,7 @@ def drinkMPPotion():
         print("You don't have any MP potions")
 
     else:
-        PlayerIG.mpPotions += 50
+        PlayerIG.mp += 100
         if PlayerIG.mp > PlayerIG.maxmp:
             PlayerIG.mp = PlayerIG.maxmp
             print("You drank a potion")
