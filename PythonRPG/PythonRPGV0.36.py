@@ -31,6 +31,7 @@ class Player:
         self.maxexp = 20
         self.healthPotions = 0
         self.mpPotions = 0
+        self.speed = 1
         self.weap = ["Rusty Sword"]
         self.curweap = ["Rusty Sword"]
         self.curtown = "Lidl Town"
@@ -62,6 +63,7 @@ class GoblinLV1:
         self.attack = 5
         self.goldgain = 10
         self.expgain = 5
+        self.speed = 2
 GoblinLV1IG = GoblinLV1("GoblinLV1")
 
 
@@ -76,6 +78,7 @@ class GoblinLV2:
         self.attack = 20
         self.goldgain = 20
         self.expgain = 15
+        self.speed = 4
 GoblinLV2IG = GoblinLV2("GoblinLV2")
 
 
@@ -90,6 +93,7 @@ class ThiefLV1:
         self.attack = 7
         self.goldgain = 15
         self.expgain  = 10
+        self.speed = 3
 ThiefLV1IG = ThiefLV1("ThiefLV1")
 
 
@@ -104,6 +108,7 @@ class ThiefLV2:
         self.attack = 15
         self.goldgain = 20
         self.expgain  = 15
+        self.speed  = 6
 ThiefLV2IG = ThiefLV2("ThiefLV2")
 
 
@@ -118,6 +123,7 @@ class OgreLV1:
         self.attack = 15
         self.goldgain = 30
         self.expgain  = 25
+        self.speed = 1
 OgreLV1IG = OgreLV1("OgreLV1")
 
 
@@ -132,6 +138,7 @@ class OgreLV2:
         self.attack = 30
         self.goldgain = 40
         self.expgain  = 35
+        self.speed = 2
 OgreLV2IG = OgreLV2("OgreLV2")
 
 
@@ -139,13 +146,14 @@ OgreLV2IG = OgreLV2("OgreLV2")
 class LizardBoiLV1:
     def __init__(self, name):
         self.name = name
-        self.maxhealth = 350
+        self.maxhealth = 300
         self.health = self.maxhealth
         self.maxmp = 70
         self.mp = self.maxmp
         self.attack = 30
         self.goldgain = 25
         self.expgain  = 30
+        self.speed = 5
 LizardBoiLV1IG = LizardBoiLV1("LizardBoiLV1")
 
 
@@ -153,13 +161,14 @@ LizardBoiLV1IG = LizardBoiLV1("LizardBoiLV1")
 class LizardBoiLV2:
     def __init__(self, name):
         self.name = name
-        self.maxhealth = 500
+        self.maxhealth = 400
         self.health = self.maxhealth
         self.maxmp = 70
         self.mp = self.maxmp
         self.attack = 40
         self.goldgain = 35
         self.expgain  = 40
+        self.speed = 8
 LizardBoiLV2IG = LizardBoiLV2("LizardBoiLV2")
 
 
@@ -324,6 +333,7 @@ def chooseClass():
         PlayerIG.maxmp = 50
         PlayerIG.mp = PlayerIG.maxmp
         PlayerIG.base_attack = 5
+        PlayerIG.speed = 3
 
     elif option == "2":
         PlayerIG.Class = "Mage"
@@ -332,6 +342,7 @@ def chooseClass():
         PlayerIG.maxmp = 200
         PlayerIG.mp = PlayerIG.maxmp
         PlayerIG.base_attack = 5
+        PlayerIG.speed = 5
 
     elif option == "3":
         PlayerIG.Class = "Assasin"
@@ -340,6 +351,7 @@ def chooseClass():
         PlayerIG.maxmp = 100
         PlayerIG.mp = PlayerIG.maxmp
         PlayerIG.base_attack = 10
+        PlayerIG.speed = 6
 
     else:
         chooseClass()
@@ -516,6 +528,7 @@ def bartender():
 
         else:
             print("Thats not on sale")
+            bartender()
 
     elif option == "2":
         quests()
@@ -532,6 +545,7 @@ def buyHPpotion():
     os.system("cls")
     if PlayerIG.gold >= 10:
         PlayerIG.healthPotions += 1
+        PlayerIG.gold -= 10
         print("You have bought an HP Potion")
 
         option = input(" ")
@@ -551,6 +565,7 @@ def buyMPpotion():
     os.system("cls")
     if PlayerIG.gold >= 10:
         PlayerIG.mpPotions += 1
+        PlayerIG.gold -= 10
         print("You have bought an MP Potion")
 
         option = input(" ")
@@ -642,17 +657,21 @@ def prefight():
 
         if enemynum == 1:
             enemy = GoblinLV2IG
+            EattackList = {"Attack"}
 
         else:
             enemy = ThiefLV2IG
+            EattackList = {"Attack"}
 
     else:
         enemynum = random.randint(1, 2)
         if enemynum == 1:
             enemy = GoblinLV1IG
+            EattackList = {"Attack"}
 
         else:
             enemy = ThiefLV1IG
+            EattackList = {"Attack"}
 
     fight()
 
@@ -688,31 +707,57 @@ def fight():
 def attack():
     os.system("cls")
 
-    enemy.health -= PlayerIG.attack
-    print("You deal",PlayerIG.attack,"damage")
-    option = input(" ")
-    os.system("cls")
+    if PlayerIG.speed >= enemy.speed:
+        enemy.health -= PlayerIG.attack
+        print("You deal",PlayerIG.attack,"damage")
+        option = input(" ")
+        os.system("cls")
 
-    if enemy.health <= 0:
-        PlayerIG.gold += enemy.goldgain
-        PlayerIG.curexp += enemy.expgain
-        print("You have gained",enemy.expgain,"XP")
+        if enemy.health <= 0:
+            PlayerIG.gold += enemy.goldgain
+            PlayerIG.curexp += enemy.expgain
+            print("You have gained",enemy.expgain,"XP")
 
+            option = input(" ")
+
+            lvup()
+            win()
+
+        PlayerIG.health -= enemy.attack
+        print("The enemy deals",enemy.attack,"damage!")
         option = input(" ")
 
-        lvup()
-        win()
+        if PlayerIG.health <= 0:
+            dead()
 
-    PlayerIG.health -= enemy.attack
-    print("The enemy deals",enemy.attack,"damage!")
-    option = input(" ")
-
-    if PlayerIG.health <= 0:
-        dead()
+        else:
+            fight()
 
     else:
-        fight()
+        PlayerIG.health -= enemy.attack
+        print("The enemy deals",enemy.attack,"damage!")
+        option = input(" ")
 
+        if PlayerIG.health <= 0:
+            dead()
+
+        enemy.health -= PlayerIG.attack
+        print("You deal",PlayerIG.attack,"damage")
+        option = input(" ")
+        os.system("cls")
+
+        if enemy.health <= 0:
+            PlayerIG.gold += enemy.goldgain
+            PlayerIG.curexp += enemy.expgain
+            print("You have gained",enemy.expgain,"XP")
+
+            option = input(" ")
+
+            lvup()
+            win()
+
+        else:
+            fight()
 
 
 def drinkHPPotion():
@@ -723,6 +768,7 @@ def drinkHPPotion():
 
     else:
         PlayerIG.health += 100
+        PlayerIG.healthPotions -= 1
         if PlayerIG.health > PlayerIG.maxhealth:
             PlayerIG.health = PlayerIG.maxhealth
         print("You drank a potion")
@@ -740,6 +786,7 @@ def drinkMPPotion():
 
     else:
         PlayerIG.mp += 100
+        PlayerIG.mpPotions -= 1
         if PlayerIG.mp > PlayerIG.maxmp:
             PlayerIG.mp = PlayerIG.maxmp
             print("You drank a potion")
